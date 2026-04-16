@@ -5,12 +5,15 @@ FROM eclipse-temurin:21-jdk-alpine AS builder
 
 WORKDIR /app
 
+# Install required tools for mvnw (needs bash on alpine)
+RUN apk add --no-cache bash
+
 # Copy Maven wrapper and pom.xml first (cache dependencies)
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
 
-# Grant execute permissions
-RUN chmod +x mvnw
+# Fix line endings and grant execute permissions
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw
 
 # Download dependencies (cached layer)
 RUN ./mvnw dependency:go-offline -B
@@ -39,14 +42,14 @@ RUN chown appuser:appgroup app.jar
 
 USER appuser
 
-# Expose application port
+# Railway injects $PORT dynamically — expose the default
 EXPOSE 8080
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1
+# Health check using sh (wget may not be in jre-alpine)
+HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
+  CMD wget -qO- http://localhost:${PORT:-8080}/actuator/health || exit 1
 
-# Run the application
+# Run the application — let Railway's $PORT override via Spring's server.port=${PORT:8080}
 ENTRYPOINT ["java", \
   "-XX:+UseContainerSupport", \
   "-XX:MaxRAMPercentage=75.0", \
