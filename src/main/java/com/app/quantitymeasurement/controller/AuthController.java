@@ -19,11 +19,6 @@ public class AuthController {
 
 	private final AuthService authService;
 
-	public AuthController(AuthService authService) {
-		super();
-		this.authService = authService;
-	}
-
 	@PostMapping("/login")
 	public AuthResponse login(@RequestBody LoginRequest request) {
 		return authService.login(request);

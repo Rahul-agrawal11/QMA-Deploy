@@ -23,29 +23,15 @@ public class AuthService {
 	private final JwtService jwtService;
 	private final UserRepository userRepo;
 	private final PasswordEncoder encoder;
-	
-	
-
-	public AuthService(AuthenticationManager authManager, JwtService jwtService, UserRepository userRepo,
-			PasswordEncoder encoder) {
-		super();
-		this.authManager = authManager;
-		this.jwtService = jwtService;
-		this.userRepo = userRepo;
-		this.encoder = encoder;
-	}
 
 	public AuthResponse login(LoginRequest request) {
-
-		authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-
+		authManager.authenticate(
+				new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 		String token = jwtService.generateToken(request.getEmail());
-
 		return new AuthResponse(token);
 	}
 
 	public AuthResponse signup(SignupRequest request) {
-
 		if (userRepo.findByEmail(request.getEmail()).isPresent()) {
 			throw new UserAlreadyExistsException();
 		}

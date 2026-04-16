@@ -6,12 +6,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+
+import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
@@ -20,15 +21,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final JwtService jwtService;
 	private final CustomUserDetailsService userService;
 
-	public JwtAuthenticationFilter(JwtService jwtService, CustomUserDetailsService userService) {
-		super();
-		this.jwtService = jwtService;
-		this.userService = userService;
-	}
-
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws ServletException, IOException, java.io.IOException {
+			throws ServletException, IOException {
 
 		String authHeader = request.getHeader("Authorization");
 
@@ -41,13 +36,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		String username = jwtService.extractUsername(token);
 
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
 			UserDetails user = userService.loadUserByUsername(username);
 
 			if (jwtService.isValid(token, user)) {
-				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null,
-						user.getAuthorities());
-
+				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+						user, null, user.getAuthorities());
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
 		}
