@@ -16,11 +16,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	private final UserRepository userRepo;
 
-	public CustomUserDetailsService(UserRepository userRepo) {
-		super();
-		this.userRepo = userRepo;
-	}
-
 	@Override
 	public UserDetails loadUserByUsername(String username) {
 
