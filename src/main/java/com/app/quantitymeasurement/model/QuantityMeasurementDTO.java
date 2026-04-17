@@ -31,6 +31,29 @@ public class QuantityMeasurementDTO {
 	@JsonProperty("error")
 	private boolean error;
 
+	public QuantityMeasurementDTO(Double thisValue, String thisUnit, String thisMeasurementType, Double thatValue,
+			String thatUnit, String thatMeasurementType, String operation, String resultString, Double resultValue,
+			String resultUnit, String resultMeasurementType, String errorMessage, boolean error) {
+
+		this.thisValue = thisValue;
+		this.thisUnit = thisUnit;
+		this.thisMeasurementType = thisMeasurementType;
+
+		this.thatValue = thatValue;
+		this.thatUnit = thatUnit;
+		this.thatMeasurementType = thatMeasurementType;
+
+		this.operation = operation;
+
+		this.resultString = resultString;
+		this.resultValue = resultValue;
+		this.resultUnit = resultUnit;
+		this.resultMeasurementType = resultMeasurementType;
+
+		this.errorMessage = errorMessage;
+		this.error = error;
+	}
+
 	// ------------------- ENTITY → DTO -------------------
 	public static QuantityMeasurementDTO from(QuantityMeasurementEntity entity) {
 		if (entity == null)
