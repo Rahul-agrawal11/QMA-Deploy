@@ -9,13 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.app.quantitymeasurement.model.AppUser;
 import com.app.quantitymeasurement.repository.UserRepository;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private final UserRepository userRepo;
+	private UserRepository userRepo;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) {

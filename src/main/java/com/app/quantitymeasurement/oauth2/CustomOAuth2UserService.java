@@ -14,7 +14,7 @@ import com.app.quantitymeasurement.repository.UserRepository;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
-    private final UserRepository userRepo;
+    private UserRepository userRepo;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
