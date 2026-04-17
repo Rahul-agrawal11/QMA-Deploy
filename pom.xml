@@ -100,11 +100,11 @@
 			<version>2.6.0</version>
 		</dependency>
 
-		<!-- ✅ ACTUATOR (health checks for Railway) -->
-		<!-- <dependency>
+		<!-- ✅ ACTUATOR (health checks for Railway) --> 
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency> -->
+		</dependency>
 
 		<!-- ✅ TEST (VERY IMPORTANT) -->
 		<dependency>
