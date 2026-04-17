@@ -23,7 +23,6 @@ import com.app.quantitymeasurement.oauth2.OAuth2SuccessHandler;
 import com.app.quantitymeasurement.security.JwtAuthenticationEntryPoint;
 import com.app.quantitymeasurement.security.JwtAuthenticationFilter;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -55,7 +54,7 @@ public class SecurityConfig {
 				// Authorization Rules
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/auth/**", "/oauth2/**", "/h2-console/**", "/swagger-ui/**",
-								"/swagger-ui.html", "/v3/api-docs/**")
+								"/swagger-ui.html", "/v3/api-docs/**", "/actuator/health", "/actuator/info")
 						.permitAll()
 
 						// Secure your APIs now
