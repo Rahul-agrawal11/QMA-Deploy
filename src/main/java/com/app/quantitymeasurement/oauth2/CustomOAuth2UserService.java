@@ -26,7 +26,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if (email != null && userRepo.findByEmail(email).isEmpty()) {
             AppUser newUser = new AppUser();
             newUser.setEmail(email);
-            newUser.setPassword(""); // OAuth2 users have no password
+            newUser.setPassword(""); // OAuth2 users have no local password
             userRepo.save(newUser);
         }
 
